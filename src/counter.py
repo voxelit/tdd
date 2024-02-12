@@ -39,3 +39,11 @@ def get_counter(name):
         return {name: COUNTERS[name]}, status.HTTP_200_OK
     else:
         return {"Message":f"Counter {name} does not exist"}, status.HTTP_404_NOT_FOUND
+
+@app.route('/counters/<name>', methods=['DELETE'])
+def delete_counter(name):
+    """Delete a counter"""
+    app.logger.info(f"Request to delete counter: {name}")
+    if name in COUNTERS:   # delete counter and 204 status message if found
+        del COUNTERS[name]
+        return {"Message":f"Counter {name} deleted"}, status.HTTP_204_NO_CONTENT

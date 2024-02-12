@@ -40,17 +40,17 @@ class CounterTest(TestCase):
 
     def test_update_a_counter(self):
         """It should update a counter"""
-        result = self.client.post('/counters/test')
+        result = self.client.post('/counters/updateTest')
         self.assertEqual(result.status_code, status.HTTP_201_CREATED)
-        initialVal = result.json['test']
-        updateTest = self.client.put('/counters/test')
+        initialVal = result.json['updateTest']
+        updateTest = self.client.put('/counters/updateTest')
         self.assertEqual(updateTest.status_code, status.HTTP_200_OK)
-        updateValue = updateTest.json['test']
+        updateValue = updateTest.json['updateTest']
         self.assertEqual(initialVal + 1, updateValue)
 
     def test_update_a_bad_counter(self):
         """It should return an error for updating non-existent counter"""
-        updateTest = self.client.put('/counters/test')
+        updateTest = self.client.put('/counters/updateCounter')
         self.assertEqual(updateTest.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_get_a_counter(self):
@@ -63,5 +63,12 @@ class CounterTest(TestCase):
 
     def test_get_a_bad_counter(self):
         """It should return an error for getting non-existent counter"""
-        updateTest = self.client.get('/counters/test')
+        updateTest = self.client.get('/counters/badCounter')
         self.assertEqual(updateTest.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_a_counter(self):
+        """It should delete a counter"""
+        result = self.client.post('/counters/test')
+        self.assertEqual(result.status_code, status.HTTP_201_CREATED)
+        deleteCounter = self.client.delete('/counters/test')
+        self.assertEqual(deleteCounter.status_code, status.HTTP_204_NO_CONTENT)
